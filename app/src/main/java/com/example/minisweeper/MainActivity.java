@@ -1,15 +1,13 @@
 package com.example.minisweeper;
 
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -18,12 +16,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button[][] button;
     GridLayout gridLayout;
 
-    final int rowCount = 10;
-    final int columnCount = 7;
-    int mineCount = 20;
+    private final int rowCount = 10;
+    private final int columnCount = 7;
+    private int mineCount = 10;
+    int buttonClickCount = 0;
 
     int mineArray[][] = new int[rowCount+2][columnCount+2];
     int resultArray[][] = new int[rowCount+2][columnCount+2];
+    boolean lockedArray[][] = new boolean[rowCount+2][columnCount+2];
+    int gridBackground[] = {R.drawable.grid_0, R.drawable.grid_1, R.drawable.grid_2, R.drawable.grid_3, R.drawable.grid_4,
+            R.drawable.grid_5, R.drawable.grid_6, R.drawable.grid_7, R.drawable.grid_8};
 
     boolean isGameOver = false;
 
@@ -38,12 +40,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             for(int j=1; j<=columnCount; j++)
                 button[i][j] = new Button(this);
 
-            gridLayout = (GridLayout) findViewById(R.id.grid);
+        gridLayout = (GridLayout) findViewById(R.id.grid);
+
         for(int i=1; i<=rowCount; i++){
             for(int j=1; j<=columnCount; j++){
                 button[i][j] = new Button(this);
-                button[i][j].setTag(""+i+j);
+                button[i][j].setTag(i+"_"+j);
+                button[i][j].setId((i-1)*rowCount + j);
                 button[i][j].setBackground(getDrawable(R.drawable.grid_button));
+                button[i][j].setTextColor(Color.WHITE);
                 button[i][j].setOnClickListener(this);
                 button[i][j].setOnLongClickListener(this);
                 gridLayout.addView(button[i][j]);
@@ -108,19 +113,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(!isGameOver){
-            Button selectedBtn = (Button) v;
-            String selectedTag = (String) v.getTag();
-            int subtract = (int)'0';
-            int i = (int)selectedTag.charAt(0) - subtract;
-            int j = (int)selectedTag.charAt(1) - subtract;
-            selectedBtn.setTextColor(Color.WHITE);
+        Button selectedBtn = (Button) v;
+        String selectedTag = (String) v.getTag();
+        String subString[] = selectedTag.split("_");
+        int i = convertStringtoInteger(subString[0]);
+        int j = convertStringtoInteger(subString[1]);
+        if(!isGameOver && lockedArray[i][j] == false){
             if(resultArray[i][j] == -1){
                 Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
+                isGameOver = true;
+            }else if(resultArray[i][j] == 0){
+                verticalTraversal(i, j);
             }else{
-                selectedBtn.setText(Integer.toString(resultArray[i][j]));
+                selectedBtn.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[i][j]]));
             }
             v.setEnabled(false);
+            buttonClickCount++;
+            if(buttonClickCount == (rowCount * columnCount) - mineCount){
+                Toast.makeText(this, "Congratulations", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -128,12 +139,82 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onLongClick(View v) {
         Button selectedBtn = (Button) v;
         String selectedTag = (String) v.getTag();
-        int subtract = (int)'0';
-        int i = (int)selectedTag.charAt(0) - subtract;
-        int j = (int)selectedTag.charAt(1) - subtract;
-
-        selectedBtn.setText(Integer.toString(-1));
+        String subString[] = selectedTag.split("_");
+        int i = convertStringtoInteger(subString[0]);
+        int j = convertStringtoInteger(subString[1]);
+        if(lockedArray[i][j] == true){
+            selectedBtn.setBackground(getDrawable(R.drawable.grid_button));
+            lockedArray[i][j] = false;
+        }else{
+            selectedBtn.setBackground(getDrawable(R.drawable.locked_grid_button));
+            lockedArray[i][j] = true;
+        }
         return true;
+    }
+    int convertStringtoInteger(String str){
+        int len = str.length();
+        int res = 0;
+        int index = 0;
+        int zero = (int)'0';
+        while(len-- > 0){
+            res = res + str.charAt(index) - zero;
+            if(len > 0){
+                res *= 10;
+            }
+            index++;
+        }
+        return res;
+    }
+    void verticalTraversal(int rowNumber, int colNumber){
+        for(int i=rowNumber; i>0; i--){
+            if(resultArray[i][colNumber] < 0){
+                break;
+            }else{
+                horizontalTraversal(i, colNumber);
+                if(resultArray[i][colNumber] > 0){
+                    break;
+                }
+            }
+        }
+        for(int i=rowNumber+1; i<=rowCount; i++){
+            if(resultArray[i][colNumber] != 0){
+                break;
+            }else{
+                horizontalTraversal(i, colNumber);
+                if(resultArray[i][colNumber] > 0){
+                    break;
+                }
+            }
+        }
+    }
+
+    void horizontalTraversal(int rowNumber, int colNumber){
+        for(int i=colNumber; i>0; i--){
+            if(resultArray[rowNumber][i] < 0){
+                break;
+            }else{
+                Button bt = (Button) findViewById((rowNumber-1)*rowCount + i);
+                bt.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[rowNumber][i]]));
+                bt.setEnabled(false);
+                buttonClickCount++;
+                if(resultArray[rowNumber][i] > 0){
+                    break;
+                }
+            }
+        }
+        for(int i=colNumber+1; i<=columnCount; i++){
+            if(resultArray[rowNumber][i] < 0){
+                break;
+            }else{
+                Button bt = (Button) findViewById((rowNumber-1)*rowCount + i);
+                bt.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[rowNumber][i]]));
+                bt.setEnabled(false);
+                buttonClickCount++;
+                if(resultArray[rowNumber][i] > 0){
+                    break;
+                }
+            }
+        }
     }
 
 }
