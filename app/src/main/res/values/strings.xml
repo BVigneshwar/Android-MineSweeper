@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">MiniSweeper</string>
+    <string name="app_name">MineSweeper</string>
+    <string name="congrats">Congratulations</string>
+    <string name="loser">Loser</string>
 </resources>

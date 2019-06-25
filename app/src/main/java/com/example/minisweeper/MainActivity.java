@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -120,17 +121,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int j = convertStringtoInteger(subString[1]);
         if(!isGameOver && lockedArray[i][j] == false){
             if(resultArray[i][j] == -1){
-                Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
+                TextView textView = (TextView) findViewById(R.id.game_result);
+                textView.setText(R.string.loser);
                 isGameOver = true;
+                openMineGrids();
             }else if(resultArray[i][j] == 0){
-                verticalTraversal(i, j);
+                openSurroundingZero(i, j);
             }else{
                 selectedBtn.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[i][j]]));
+                buttonClickCount++;
             }
             v.setEnabled(false);
-            buttonClickCount++;
             if(buttonClickCount == (rowCount * columnCount) - mineCount){
-                Toast.makeText(this, "Congratulations", Toast.LENGTH_LONG).show();
+                TextView textView = (TextView) findViewById(R.id.game_result);
+                textView.setText(R.string.congrats);
+                openMineGrids();
             }
         }
     }
@@ -165,53 +170,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return res;
     }
-    void verticalTraversal(int rowNumber, int colNumber){
-        for(int i=rowNumber; i>0; i--){
-            if(resultArray[i][colNumber] < 0){
-                break;
-            }else{
-                horizontalTraversal(i, colNumber);
-                if(resultArray[i][colNumber] > 0){
-                    break;
-                }
-            }
-        }
-        for(int i=rowNumber+1; i<=rowCount; i++){
-            if(resultArray[i][colNumber] != 0){
-                break;
-            }else{
-                horizontalTraversal(i, colNumber);
-                if(resultArray[i][colNumber] > 0){
-                    break;
+
+    void openSurroundingZero(int rowNumber, int colNumber){
+        for(int i=rowNumber-1; i<=rowNumber+1; i++){
+            for(int j=colNumber-1; j<=colNumber+1; j++){
+                Button bt = (Button) findViewById((i-1)*rowCount + j);
+                if(i > 0 && i <= rowCount && j > 0 && j<=columnCount && bt.isEnabled()){
+                    bt.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[i][j]]));
+                    buttonClickCount++;
+                    bt.setEnabled(false);
+                    if(resultArray[i][j] == 0 && (i != rowNumber || j != colNumber)){
+                        openSurroundingZero(i, j);
+                    }
                 }
             }
         }
     }
 
-    void horizontalTraversal(int rowNumber, int colNumber){
-        for(int i=colNumber; i>0; i--){
-            if(resultArray[rowNumber][i] < 0){
-                break;
-            }else{
-                Button bt = (Button) findViewById((rowNumber-1)*rowCount + i);
-                bt.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[rowNumber][i]]));
-                bt.setEnabled(false);
-                buttonClickCount++;
-                if(resultArray[rowNumber][i] > 0){
-                    break;
-                }
-            }
-        }
-        for(int i=colNumber+1; i<=columnCount; i++){
-            if(resultArray[rowNumber][i] < 0){
-                break;
-            }else{
-                Button bt = (Button) findViewById((rowNumber-1)*rowCount + i);
-                bt.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[rowNumber][i]]));
-                bt.setEnabled(false);
-                buttonClickCount++;
-                if(resultArray[rowNumber][i] > 0){
-                    break;
+    void openMineGrids(){
+        for(int i=1; i<=rowCount; i++){
+            for(int j=1; j<=columnCount; j++){
+                Button bt = (Button) findViewById((i-1)*rowCount + j);
+                if(bt.isEnabled()){
+                    if(resultArray[i][j] == -1){
+                        bt.setBackground(getDrawable(R.drawable.locked_grid_button));
+                    }else{
+                        bt.setBackground(getDrawable(gridBackground[resultArray[i][j]]));
+                    }
                 }
             }
         }
