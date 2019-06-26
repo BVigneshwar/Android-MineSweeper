@@ -1,5 +1,6 @@
 package com.example.minisweeper;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener{
     Button[][] button;
     GridLayout gridLayout;
+    Button restart;
 
     private final int rowCount = 10;
     private final int columnCount = 7;
@@ -76,6 +78,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         //initialize mine array
         generateMine();
+
+        restart = (Button) findViewById(R.id.restart_button);
+        restart.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     void generateMine(){
@@ -121,10 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int j = convertStringtoInteger(subString[1]);
         if(!isGameOver && lockedArray[i][j] == false){
             if(resultArray[i][j] == -1){
-                TextView textView = (TextView) findViewById(R.id.game_result);
-                textView.setText(R.string.loser);
                 isGameOver = true;
                 openMineGrids();
+                restart.setVisibility(View.VISIBLE);
             }else if(resultArray[i][j] == 0){
                 openSurroundingZero(i, j);
             }else{
@@ -133,9 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             v.setEnabled(false);
             if(buttonClickCount == (rowCount * columnCount) - mineCount){
-                TextView textView = (TextView) findViewById(R.id.game_result);
-                textView.setText(R.string.congrats);
                 openMineGrids();
+                restart.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -197,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }else{
                         bt.setBackground(getDrawable(gridBackground[resultArray[i][j]]));
                     }
+                    bt.setEnabled(false);
                 }
             }
         }
