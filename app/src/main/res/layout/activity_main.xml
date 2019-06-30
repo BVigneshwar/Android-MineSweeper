@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:weightSum="10"
     android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <GridLayout android:id="@+id/grid"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:rowCount="10"
-        android:columnCount="7">
-    </GridLayout>
-
+        android:layout_weight="5"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="48sp"
+        android:textStyle="bold" />
     <Button
-        android:id="@+id/restart_button"
+        android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="ReStart"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="center"
         android:background="@drawable/restart_button"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"/>
-
+        android:textColor="@color/white"
+        android:text="START"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/grid_size_selector"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:text="10 x 7"
+        android:textStyle="bold"
+        android:textSize="32sp"/>
 </LinearLayout>
