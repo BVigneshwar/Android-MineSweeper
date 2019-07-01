@@ -11,9 +11,7 @@
 
     <GridLayout android:id="@+id/grid"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:rowCount="10"
-        android:columnCount="7">
+        android:layout_width="match_parent">
     </GridLayout>
 
     <Button

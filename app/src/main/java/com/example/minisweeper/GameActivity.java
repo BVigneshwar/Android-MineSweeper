@@ -17,14 +17,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     GridLayout gridLayout;
     Button restart;
 
-    private final int rowCount = 10;
-    private final int columnCount = 7;
+    private int rowCount = 10;
+    private int columnCount = 7;
     private int mineCount = 10;
     int buttonClickCount = 0;
 
-    int mineArray[][] = new int[rowCount+2][columnCount+2];
-    int resultArray[][] = new int[rowCount+2][columnCount+2];
-    boolean lockedArray[][] = new boolean[rowCount+2][columnCount+2];
+    int mineArray[][];
+    int resultArray[][];
+    boolean lockedArray[][];
+
     int gridBackground[] = {R.drawable.grid_0, R.drawable.grid_1, R.drawable.grid_2, R.drawable.grid_3, R.drawable.grid_4,
             R.drawable.grid_5, R.drawable.grid_6, R.drawable.grid_7, R.drawable.grid_8};
 
@@ -34,14 +35,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        Intent intent = getIntent();
+        rowCount = intent.getIntExtra("ROW_COUNT", 10);
+        columnCount = intent.getIntExtra("COLUMN_COUNT", 7);
 
         button = new Button[rowCount+1][columnCount+1];
+        mineArray = new int[rowCount+2][columnCount+2];
+        resultArray = new int[rowCount+2][columnCount+2];
+        lockedArray = new boolean[rowCount+2][columnCount+2];
 
         for(int i=1; i<=rowCount; i++)
             for(int j=1; j<=columnCount; j++)
                 button[i][j] = new Button(this);
 
         gridLayout = (GridLayout) findViewById(R.id.grid);
+        gridLayout.setRowCount(rowCount);
+        gridLayout.setColumnCount(columnCount);
 
         for(int i=1; i<=rowCount; i++){
             for(int j=1; j<=columnCount; j++){
@@ -82,7 +91,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                Intent intent = new Intent(GameActivity.this, GameActivity.class);
+                intent.putExtra("ROW_COUNT", rowCount);
+                intent.putExtra("COLUMN_COUNT", columnCount);
                 startActivity(intent);
                 finish();
             }
