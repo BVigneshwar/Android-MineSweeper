@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import java.util.Arrays;
 
@@ -16,11 +17,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button[][] button;
     GridLayout gridLayout;
     Button restart;
+    TextView remainingMineCount;
 
-    private int rowCount = 10;
-    private int columnCount = 7;
-    private int mineCount = 10;
+    private int rowCount;
+    private int columnCount;
+    private int mineCount;
     int buttonClickCount = 0;
+    int rem_mine_count;
 
     int mineArray[][];
     int resultArray[][];
@@ -35,6 +38,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
         Intent intent = getIntent();
         rowCount = intent.getIntExtra("ROW_COUNT", 10);
         columnCount = intent.getIntExtra("COLUMN_COUNT", 7);
@@ -43,14 +47,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         mineArray = new int[rowCount+2][columnCount+2];
         resultArray = new int[rowCount+2][columnCount+2];
         lockedArray = new boolean[rowCount+2][columnCount+2];
+        mineCount = (int) (0.15 * rowCount * columnCount);
+        rem_mine_count = mineCount;
 
         for(int i=1; i<=rowCount; i++)
             for(int j=1; j<=columnCount; j++)
                 button[i][j] = new Button(this);
 
+        remainingMineCount = (TextView) findViewById(R.id.mine_count);
         gridLayout = (GridLayout) findViewById(R.id.grid);
         gridLayout.setRowCount(rowCount);
         gridLayout.setColumnCount(columnCount);
+        remainingMineCount.setText(mineCount+"");
 
         for(int i=1; i<=rowCount; i++){
             for(int j=1; j<=columnCount; j++){
@@ -162,17 +170,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onLongClick(View v) {
-        Button selectedBtn = (Button) v;
-        String selectedTag = (String) v.getTag();
-        String subString[] = selectedTag.split("_");
-        int i = convertStringtoInteger(subString[0]);
-        int j = convertStringtoInteger(subString[1]);
-        if(lockedArray[i][j] == true){
-            selectedBtn.setBackground(getDrawable(R.drawable.grid_button));
-            lockedArray[i][j] = false;
-        }else{
-            selectedBtn.setBackground(getDrawable(R.drawable.locked_grid_button));
-            lockedArray[i][j] = true;
+        if(rem_mine_count > 0){
+            Button selectedBtn = (Button) v;
+            String selectedTag = (String) v.getTag();
+            String subString[] = selectedTag.split("_");
+            int i = convertStringtoInteger(subString[0]);
+            int j = convertStringtoInteger(subString[1]);
+            if(lockedArray[i][j] == true){
+                selectedBtn.setBackground(getDrawable(R.drawable.grid_button));
+                lockedArray[i][j] = false;
+                remainingMineCount.setText(++rem_mine_count+"");
+            }else{
+                selectedBtn.setBackground(getDrawable(R.drawable.locked_grid_button));
+                lockedArray[i][j] = true;
+                remainingMineCount.setText(--rem_mine_count+"");
+            }
         }
         return true;
     }
