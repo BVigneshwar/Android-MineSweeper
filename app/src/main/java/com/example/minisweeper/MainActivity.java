@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button start_button, prev_grid_size_button, next_grid_size_button;
-    TextView grid_size_selector;
+    TextView grid_size_selector, best_time_display;
     String grid_size_array[] = {"7 x 5", "10 x 7", "12 x 9", "13 x 11"};
     int size_selector_index = 0;
     @Override
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         grid_size_selector = (TextView) findViewById(R.id.grid_size_selector);
         prev_grid_size_button = (Button) findViewById(R.id.prev_grid);
         next_grid_size_button = (Button) findViewById(R.id.next_grid);
+        best_time_display = (TextView) findViewById(R.id.best_time);
 
         start_button.setOnClickListener(this);
 
@@ -93,6 +94,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Timer timer = new Timer(this,0);
+        long best_time = timer.retrieveBestTime();
+        if(best_time > 0){
+            long minutes = best_time / 60;
+            long seconds = best_time % 60;
+            best_time_display.setText(String.format("%02d", minutes)+":"+String.format("%02d", seconds));
+        }
     }
 
     @Override

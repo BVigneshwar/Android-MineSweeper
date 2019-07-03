@@ -172,6 +172,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             if(resultArray[i][j] == -1){
                 isGameOver = true;
                 openMineGrids();
+                handler.removeCallbacks(runnable);
                 restart.setVisibility(View.VISIBLE);
             }else if(resultArray[i][j] == 0){
                 openSurroundingZero(i, j);
@@ -182,7 +183,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             v.setEnabled(false);
             if(buttonClickCount == (rowCount * columnCount) - mineCount){
                 openMineGrids();
+                handler.removeCallbacks(runnable);
                 restart.setVisibility(View.VISIBLE);
+                timeBuff += millisecond_time;
+                timeBuff /= 1000;
+                Timer timer = new Timer(this, timeBuff);
+                long best_time_so_far = timer.retrieveBestTime();
+                if(timeBuff < best_time_so_far){
+                    timer.storeBestTime();
+                }
             }
         }
     }
