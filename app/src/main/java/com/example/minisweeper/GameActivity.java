@@ -3,6 +3,8 @@ package com.example.minisweeper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,13 +19,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button[][] button;
     GridLayout gridLayout;
     Button restart;
-    TextView remainingMineCount;
+    TextView remainingMineCount, timer;
 
     private int rowCount;
     private int columnCount;
     private int mineCount;
     int buttonClickCount = 0;
     int rem_mine_count;
+    long start_time, millisecond_time, timeBuff;
 
     int mineArray[][];
     int resultArray[][];
@@ -33,6 +36,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             R.drawable.grid_5, R.drawable.grid_6, R.drawable.grid_7, R.drawable.grid_8};
 
     boolean isGameOver = false;
+
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         remainingMineCount = (TextView) findViewById(R.id.mine_count);
         gridLayout = (GridLayout) findViewById(R.id.grid);
+        timer = (TextView) findViewById(R.id.timer);
         gridLayout.setRowCount(rowCount);
         gridLayout.setColumnCount(columnCount);
         remainingMineCount.setText(mineCount+"");
@@ -93,6 +99,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         });
         //initialize mine array
         generateMine();
+        handler = new Handler();
+        timeBuff = 0;
 
         restart = (Button) findViewById(R.id.restart_button);
         restart.setOnClickListener(new View.OnClickListener(){
@@ -107,7 +115,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        start_time = SystemClock.uptimeMillis();
+        handler.postDelayed(runnable, 1000);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timeBuff += millisecond_time;
+        handler.removeCallbacks(runnable);
+    }
     void generateMine(){
         for(int[] i : mineArray){
             Arrays.fill(i, 0);
@@ -234,5 +253,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
+    public Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            millisecond_time = SystemClock.uptimeMillis() - start_time;
+            long update_time = timeBuff + millisecond_time;
+            long seconds = update_time / 1000;
+            long minutes = seconds/60;
+            seconds = seconds % 60;
+            timer.setText(""+minutes+":"+String.format("%02d", seconds));
+            handler.postDelayed(this, 1000);
+        }
+    };
 
 }
