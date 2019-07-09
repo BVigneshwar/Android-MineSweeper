@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -23,6 +24,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private int rowCount;
     private int columnCount;
+    private long best_time;
     private int mineCount;
     int buttonClickCount = 0;
     int rem_mine_count;
@@ -47,7 +49,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         rowCount = intent.getIntExtra("ROW_COUNT", 10);
         columnCount = intent.getIntExtra("COLUMN_COUNT", 7);
-
+        best_time = intent.getLongExtra("BEST_TIME", Long.MAX_VALUE);
         button = new Button[rowCount+1][columnCount+1];
         mineArray = new int[rowCount+2][columnCount+2];
         resultArray = new int[rowCount+2][columnCount+2];
@@ -184,14 +186,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             if(buttonClickCount == (rowCount * columnCount) - mineCount){
                 openMineGrids();
                 handler.removeCallbacks(runnable);
-                restart.setVisibility(View.VISIBLE);
                 timeBuff += millisecond_time;
                 timeBuff /= 1000;
-                Timer timer = new Timer(this, timeBuff);
+                /*Timer timer = new Timer(this, timeBuff);
                 long best_time_so_far = timer.retrieveBestTime();
                 if(timeBuff < best_time_so_far){
                     timer.storeBestTime();
+                }*/
+                DatabaseHelper helper = new DatabaseHelper(this);
+                if(best_time == Long.MAX_VALUE){
+                    if(!helper.insertBestTime(rowCount, columnCount, timeBuff)){
+                        Toast.makeText(this, "Error Storing Best Time", Toast.LENGTH_LONG).show();
+                    }
+                }else if(timeBuff < best_time){
+                    if(!helper.updateBestTime(rowCount, columnCount, timeBuff)){
+                        Toast.makeText(this, "Error Storing Best Time", Toast.LENGTH_LONG).show();
+                    }
                 }
+                restart.setVisibility(View.VISIBLE);
             }
         }
     }

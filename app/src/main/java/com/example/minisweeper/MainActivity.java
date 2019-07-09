@@ -1,6 +1,8 @@
 package com.example.minisweeper;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -15,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView grid_size_selector, best_time_display;
     String grid_size_array[] = {"7 x 5", "10 x 7", "12 x 9", "13 x 11"};
     int size_selector_index = 0;
+    long best_time = Long.MAX_VALUE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         best_time_display = (TextView) findViewById(R.id.best_time);
 
         start_button.setOnClickListener(this);
+        updateBestTime();
 
         grid_size_selector.setOnTouchListener(new View.OnTouchListener() {
             float x1=0, y1=0, x2=0, y2=0;
@@ -49,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }else{
                                     next_grid_size_button.setVisibility(View.VISIBLE);
                                 }
+                                updateBestTime();
                             }
                         }
                         if(x1 > x2){
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }else{
                                     prev_grid_size_button.setVisibility(View.VISIBLE);
                                 }
+                                updateBestTime();
                             }
                         }
                 }
@@ -77,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }else{
                         next_grid_size_button.setVisibility(View.VISIBLE);
                     }
+                    updateBestTime();
                 }
             }
         });
@@ -91,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }else{
                         prev_grid_size_button.setVisibility(View.VISIBLE);
                     }
+                    updateBestTime();
                 }
             }
         });
@@ -99,13 +108,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        Timer timer = new Timer(this,0);
+        /*Timer timer = new Timer(this,0);
         long best_time = timer.retrieveBestTime();
         if(best_time > 0){
             long minutes = best_time / 60;
             long seconds = best_time % 60;
             best_time_display.setText(String.format("%02d", minutes)+":"+String.format("%02d", seconds));
-        }
+        }*/
     }
 
     @Override
@@ -114,6 +123,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String str[] = grid_size_array[size_selector_index].split(" ");
         intent.putExtra("ROW_COUNT", Integer.parseInt(str[0]));
         intent.putExtra("COLUMN_COUNT", Integer.parseInt(str[2]));
+        intent.putExtra("BEST_TIME", best_time);
         startActivity(intent);
+    }
+
+    public void updateBestTime(){
+        String str[] = grid_size_array[size_selector_index].split(" ");
+        int row_num = Integer.parseInt(str[0]);
+        int col_num = Integer.parseInt(str[2]);
+        DatabaseHelper helper = new DatabaseHelper(this);
+        Cursor cursor = helper.getRecord(row_num, col_num);
+        if(cursor.moveToFirst()){
+            best_time = cursor.getLong(0);
+            int minutes = (int)(best_time/60);
+            int seconds = (int)(best_time%60);
+            best_time_display.setText(minutes+" : "+seconds);
+        }else{
+            best_time_display.setText("Good Luck !!!");
+        }
     }
 }
