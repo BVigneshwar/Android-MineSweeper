@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Green Theme-->
+    <style name="Green" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/Green</item>
+        <item name="colorPrimaryDark">@color/darkGreen</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/White</item>
+        <item name="textColor">@color/White</item>
+        <item name="buttonColor">@color/Green</item>
+        <item name="lightColor">@color/Green</item>
+        <item name="darkColor">@color/darkGreen</item>
+    </style>
+    <!-- Dark Theme-->
+    <style name="Dark" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/Gray</item>
+        <item name="colorPrimaryDark">@color/darkGray</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/lightGray</item>
+        <item name="textColor">@color/White</item>
+        <item name="buttonColor">@color/darkGray</item>
+        <item name="lightColor">@color/Gray</item>
+        <item name="darkColor">@color/darkGray</item>
+    </style>
+</resources>

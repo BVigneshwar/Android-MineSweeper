@@ -4,6 +4,7 @@
     tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?backgroundColor"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,17 +12,18 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:weightSum="10">
-
         <TextView
             android:id="@+id/mine_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?lightColor"
+            android:drawableLeft="@drawable/bomb_icon"
+            android:layout_marginLeft="50dp"
             android:textSize="32sp"
             android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_weight="5"/>
+            android:text="5"
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/timer"
@@ -29,7 +31,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="0:00"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?lightColor"
             android:textSize="32sp"
             android:gravity="center"
             android:layout_gravity="center"

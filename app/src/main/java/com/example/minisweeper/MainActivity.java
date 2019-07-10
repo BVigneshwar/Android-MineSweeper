@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setTheme(R.style.Dark);
         setContentView(R.layout.activity_main);
 
         start_button = (Button) findViewById(R.id.start_button);
@@ -125,6 +126,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("COLUMN_COUNT", Integer.parseInt(str[2]));
         intent.putExtra("BEST_TIME", best_time);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        updateBestTime();
     }
 
     public void updateBestTime(){
