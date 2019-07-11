@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener{
-    Button[][] button;
+    ImageButton[][] button;
     GridLayout gridLayout;
     Button restart;
     TextView remainingMineCount, timer;
@@ -50,7 +51,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         rowCount = intent.getIntExtra("ROW_COUNT", 10);
         columnCount = intent.getIntExtra("COLUMN_COUNT", 7);
         best_time = intent.getLongExtra("BEST_TIME", Long.MAX_VALUE);
-        button = new Button[rowCount+1][columnCount+1];
+        button = new ImageButton[rowCount+1][columnCount+1];
         mineArray = new int[rowCount+2][columnCount+2];
         resultArray = new int[rowCount+2][columnCount+2];
         lockedArray = new boolean[rowCount+2][columnCount+2];
@@ -59,7 +60,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         for(int i=1; i<=rowCount; i++)
             for(int j=1; j<=columnCount; j++)
-                button[i][j] = new Button(this);
+                button[i][j] = new ImageButton(this);
 
         remainingMineCount = (TextView) findViewById(R.id.mine_count);
         gridLayout = (GridLayout) findViewById(R.id.grid);
@@ -70,11 +71,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         for(int i=1; i<=rowCount; i++){
             for(int j=1; j<=columnCount; j++){
-                button[i][j] = new Button(this);
+                button[i][j] = new ImageButton(this);
                 button[i][j].setTag(i+"_"+j);
                 button[i][j].setId((i-1)*rowCount + j);
                 button[i][j].setBackground(getDrawable(R.drawable.grid_button));
-                button[i][j].setTextColor(Color.WHITE);
+                button[i][j].setImageResource(R.drawable.bomb);
                 button[i][j].setOnClickListener(this);
                 button[i][j].setOnLongClickListener(this);
                 gridLayout.addView(button[i][j]);
@@ -166,7 +167,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Button selectedBtn = (Button) v;
+        ImageButton selectedBtn = (ImageButton) v;
         String selectedTag = (String) v.getTag();
         String subString[] = selectedTag.split("_");
         int i = convertStringtoInteger(subString[0]);
@@ -212,7 +213,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onLongClick(View v) {
         if(rem_mine_count > 0){
-            Button selectedBtn = (Button) v;
+            ImageButton selectedBtn = (ImageButton) v;
             String selectedTag = (String) v.getTag();
             String subString[] = selectedTag.split("_");
             int i = convertStringtoInteger(subString[0]);
@@ -247,7 +248,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     void openSurroundingZero(int rowNumber, int colNumber){
         for(int i=rowNumber-1; i<=rowNumber+1; i++){
             for(int j=colNumber-1; j<=colNumber+1; j++){
-                Button bt = (Button) findViewById((i-1)*rowCount + j);
+                ImageButton bt = (ImageButton) findViewById((i-1)*rowCount + j);
                 if(i > 0 && i <= rowCount && j > 0 && j<=columnCount && bt.isEnabled()){
                     bt.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[i][j]]));
                     buttonClickCount++;
@@ -263,7 +264,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     void openMineGrids(){
         for(int i=1; i<=rowCount; i++){
             for(int j=1; j<=columnCount; j++){
-                Button bt = (Button) findViewById((i-1)*rowCount + j);
+                ImageButton bt = (ImageButton) findViewById((i-1)*rowCount + j);
                 if(bt.isEnabled()){
                     if(resultArray[i][j] == -1){
                         bt.setBackground(getDrawable(R.drawable.locked_grid_button));
