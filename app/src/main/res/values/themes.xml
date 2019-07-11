@@ -8,7 +8,8 @@
         <item name="backgroundColor">@color/White</item>
         <item name="textColor">@color/White</item>
         <item name="buttonColor">@color/Green</item>
-        <item name="lightColor">@color/Green</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/lightGreen</item>
         <item name="darkColor">@color/darkGreen</item>
     </style>
     <!-- Dark Theme-->
@@ -16,10 +17,11 @@
         <item name="colorPrimary">@color/Gray</item>
         <item name="colorPrimaryDark">@color/darkGray</item>
         <item name="android:textColorPrimary">@color/White</item>
-        <item name="backgroundColor">@color/lightGray</item>
+        <item name="backgroundColor">@color/darkGray</item>
         <item name="textColor">@color/White</item>
-        <item name="buttonColor">@color/darkGray</item>
-        <item name="lightColor">@color/Gray</item>
-        <item name="darkColor">@color/darkGray</item>
+        <item name="buttonColor">@color/lightGray</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/darkGray</item>
+        <item name="darkColor">@color/Gray</item>
     </style>
 </resources>

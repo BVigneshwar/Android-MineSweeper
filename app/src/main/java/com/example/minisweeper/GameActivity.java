@@ -112,6 +112,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(GameActivity.this, GameActivity.class);
                 intent.putExtra("ROW_COUNT", rowCount);
                 intent.putExtra("COLUMN_COUNT", columnCount);
+                intent.putExtra("BEST_TIME", best_time);
                 startActivity(intent);
                 finish();
             }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="buttonTextColor" format="reference"></attr>
     <attr name="textColor" format="reference"/>
     <attr name="backgroundColor" format="reference"/>
     <attr name="lightColor" format="reference"/>
