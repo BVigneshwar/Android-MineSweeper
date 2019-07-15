@@ -2,4 +2,6 @@
     <string name="app_name">MineSweeper</string>
     <string name="congrats">Congratulations</string>
     <string name="loser">Loser</string>
+    <string name="theme">Theme</string>
+    <string name="sound">Sound</string>
 </resources>

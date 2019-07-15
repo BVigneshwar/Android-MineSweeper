@@ -75,7 +75,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 button[i][j].setTag(i+"_"+j);
                 button[i][j].setId((i-1)*rowCount + j);
                 button[i][j].setBackground(getDrawable(R.drawable.grid_button));
-                button[i][j].setImageResource(R.drawable.bomb);
                 button[i][j].setOnClickListener(this);
                 button[i][j].setOnLongClickListener(this);
                 gridLayout.addView(button[i][j]);

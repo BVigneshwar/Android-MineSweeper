@@ -5,4 +5,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
     </style>
 
+    <style name="MenuStyle">
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>
