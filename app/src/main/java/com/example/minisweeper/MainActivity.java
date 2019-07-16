@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         selected_theme = intent.getIntExtra("THEME", 0);
-        onActivityCreateSetTheme(selected_theme);
+        ThemeChanger.onActivityCreateSetTheme(this, selected_theme);
         setContentView(R.layout.activity_main);
 
         start_button = (Button) findViewById(R.id.start_button);
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        theme_selector.setSelection(0, false);
+        theme_selector.setSelection(selected_theme, false);
         theme_selector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -176,14 +176,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    void onActivityCreateSetTheme(int theme){
-        switch (theme){
-            case 0:
-                setTheme(R.style.Dark);
-                break;
-            case 1:
-                setTheme(R.style.Green);
-                break;
-        }
-    }
+
 }

@@ -39,18 +39,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             R.drawable.grid_5, R.drawable.grid_6, R.drawable.grid_7, R.drawable.grid_8};
 
     boolean isGameOver = false;
+    int selected_theme;
 
     Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+
 
         Intent intent = getIntent();
         rowCount = intent.getIntExtra("ROW_COUNT", 10);
         columnCount = intent.getIntExtra("COLUMN_COUNT", 7);
         best_time = intent.getLongExtra("BEST_TIME", Long.MAX_VALUE);
+        selected_theme = intent.getIntExtra("THEME", 0);
+        ThemeChanger.onActivityCreateSetTheme(this, selected_theme);
+
+        setContentView(R.layout.activity_game);
+
         button = new ImageButton[rowCount+1][columnCount+1];
         mineArray = new int[rowCount+2][columnCount+2];
         resultArray = new int[rowCount+2][columnCount+2];
