@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    tools:openDrawer="end"
     android:background="?backgroundColor">
 
 
@@ -35,7 +34,7 @@
         android:paddingRight="50dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="?textColor"
+        android:textColor="?buttonTextColor"
         android:text="START"
         android:textSize="32sp"
         android:textAlignment="center"
@@ -75,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:text="&gt;&gt;"
-            android:textColor="?buttonTextColor"
+            android:textColor="?textColor"
             android:textSize="32sp"
             android:textStyle="bold"
             android:gravity="left"

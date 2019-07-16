@@ -2,27 +2,32 @@ package com.example.minisweeper;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageSwitcher;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button start_button, prev_grid_size_button, next_grid_size_button;
     TextView grid_size_selector, best_time_display;
+    Spinner theme_selector;
     String grid_size_array[] = {"7 x 5", "10 x 7", "12 x 9", "13 x 11"};
     int size_selector_index = 0;
     long best_time = Long.MAX_VALUE;
+    static int selected_theme = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setTheme(R.style.Dark);
+        Intent intent = getIntent();
+        selected_theme = intent.getIntExtra("THEME", 0);
+        onActivityCreateSetTheme(selected_theme);
         setContentView(R.layout.activity_main);
 
         start_button = (Button) findViewById(R.id.start_button);
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prev_grid_size_button = (Button) findViewById(R.id.prev_grid);
         next_grid_size_button = (Button) findViewById(R.id.next_grid);
         best_time_display = (TextView) findViewById(R.id.best_time);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        theme_selector = (Spinner) navigationView.getMenu().findItem(R.id.nav_theme).getActionView();
 
         start_button.setOnClickListener(this);
         updateBestTime();
@@ -104,6 +111,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+        theme_selector.setSelection(0, false);
+        theme_selector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(MainActivity.selected_theme != position){
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    intent.putExtra("THEME", position);
+                    MainActivity.this.finish();
+                    MainActivity.this.startActivity(intent);
+                    MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -125,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("ROW_COUNT", Integer.parseInt(str[0]));
         intent.putExtra("COLUMN_COUNT", Integer.parseInt(str[2]));
         intent.putExtra("BEST_TIME", best_time);
+        intent.putExtra("THEME", selected_theme);
         startActivity(intent);
     }
 
@@ -147,6 +173,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             best_time_display.setText(minutes+" : "+seconds);
         }else{
             best_time_display.setText("Good Luck !!!");
+        }
+    }
+
+    void onActivityCreateSetTheme(int theme){
+        switch (theme){
+            case 0:
+                setTheme(R.style.Dark);
+                break;
+            case 1:
+                setTheme(R.style.Green);
+                break;
         }
     }
 }

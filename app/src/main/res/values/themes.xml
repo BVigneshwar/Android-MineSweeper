@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/darkGreen</item>
         <item name="android:textColorPrimary">@color/White</item>
         <item name="backgroundColor">@color/White</item>
-        <item name="textColor">@color/White</item>
+        <item name="textColor">@color/Green</item>
         <item name="buttonColor">@color/Green</item>
         <item name="buttonTextColor">@color/White</item>
         <item name="lightColor">@color/lightGreen</item>

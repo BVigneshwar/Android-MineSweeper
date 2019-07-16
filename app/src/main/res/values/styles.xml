@@ -8,4 +8,9 @@
     <style name="MenuStyle">
         <item name="android:textSize">20sp</item>
     </style>
+    <style name="Spinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:textColor">?textColor</item>
+        <item name="android:backgroundTint">?backgroundColor</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

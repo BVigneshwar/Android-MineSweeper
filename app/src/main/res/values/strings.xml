@@ -4,4 +4,9 @@
     <string name="loser">Loser</string>
     <string name="theme">Theme</string>
     <string name="sound">Sound</string>
+    
+    <string-array name="theme_array">
+        <item>Dark</item>
+        <item>Green</item>
+    </string-array>
 </resources>
