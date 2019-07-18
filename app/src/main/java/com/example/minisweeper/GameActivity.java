@@ -1,6 +1,8 @@
 package com.example.minisweeper;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,14 +49,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(MineSweeperConstants.shared_preference_key, Context.MODE_PRIVATE);
+        int selected_grid_size = sharedPreferences.getInt(MineSweeperConstants.grid_size_selector_key, 0);
+        selected_theme = sharedPreferences.getInt(MineSweeperConstants.theme_key, 0);
+        rowCount = MineSweeperConstants.row_count_array[selected_grid_size];
+        columnCount = MineSweeperConstants.column_count_array[selected_grid_size];
 
         Intent intent = getIntent();
-        rowCount = intent.getIntExtra("ROW_COUNT", 10);
-        columnCount = intent.getIntExtra("COLUMN_COUNT", 7);
         best_time = intent.getLongExtra("BEST_TIME", Long.MAX_VALUE);
-        selected_theme = intent.getIntExtra("THEME", 0);
-        ThemeChanger.onActivityCreateSetTheme(this, selected_theme);
 
+        ThemeChanger.onActivityCreateSetTheme(this, selected_theme);
         setContentView(R.layout.activity_game);
 
         button = new ImageButton[rowCount+1][columnCount+1];

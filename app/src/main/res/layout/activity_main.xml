@@ -57,15 +57,13 @@
             android:gravity="right"
             android:background="?backgroundColor"
             android:layout_weight="1"
-            android:stateListAnimator="@null"
-            android:visibility="invisible"/>
+            android:stateListAnimator="@null"/>
         <TextView
             android:id="@+id/grid_size_selector"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:gravity="center"
             android:textColor="?textColor"
-            android:text="7 x 5"
             android:textStyle="bold"
             android:textSize="40sp"
             android:layout_weight="8"/>
@@ -113,6 +111,13 @@
         android:paddingLeft="10dp"
         app:itemTextAppearance="@style/MenuStyle"
         android:id="@+id/nav_view">
-
+        <ExpandableListView
+            android:id="@+id/expandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
+            android:dividerHeight="0dp"
+            android:groupIndicator="@null" />
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>
