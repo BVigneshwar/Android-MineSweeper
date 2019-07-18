@@ -195,11 +195,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 handler.removeCallbacks(runnable);
                 timeBuff += millisecond_time;
                 timeBuff /= 1000;
-                /*Timer timer = new Timer(this, timeBuff);
-                long best_time_so_far = timer.retrieveBestTime();
-                if(timeBuff < best_time_so_far){
-                    timer.storeBestTime();
-                }*/
                 DatabaseHelper helper = new DatabaseHelper(this);
                 if(best_time == Long.MAX_VALUE){
                     if(!helper.insertBestTime(rowCount, columnCount, timeBuff)){

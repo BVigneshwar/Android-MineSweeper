@@ -134,13 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        /*Timer timer = new Timer(this,0);
-        long best_time = timer.retrieveBestTime();
-        if(best_time > 0){
-            long minutes = best_time / 60;
-            long seconds = best_time % 60;
-            best_time_display.setText(String.format("%02d", minutes)+":"+String.format("%02d", seconds));
-        }*/
     }
 
     @Override
