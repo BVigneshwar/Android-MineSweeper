@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="White">#FFFFFF</color>
-
-    <!-- Green Theme-->
-    <color name="darkGreen">#387002</color>
-    <color name="Green">#689f38</color>
-    <color name="lightGreen">#99d066</color>
+    <color name="Black">#000000</color>
 
     <!-- Dark Theme -->
-    <color name="darkGray">#1c313a</color>
     <color name="lightGray">#718792</color>
     <color name="Gray">#455a64</color>
+    <color name="darkGray">#1c313a</color>
+
+    <!-- Green Theme-->
+    <color name="lightGreen">#99d066</color>
+    <color name="Green">#689f38</color>
+    <color name="darkGreen">#387002</color>
+
+    <!-- Red Theme -->
+    <color name="lightRed">#ff5f52</color>
+    <color name="Red">#c62828</color>
+    <color name="darkRed">#8e0000</color>
+
+    <!-- Purple Theme -->
+    <color name="lightPurple">#9c4dcc</color>
+    <color name="Purple">#6a1b9a</color>
+    <color name="darkPurple">#38006b</color>
+
+    <!-- Blue Theme -->
+    <color name="lightBlue">#5e92f3</color>
+    <color name="Blue">#1565c0</color>
+    <color name="darkBlue">#003c8f</color>
+
+    <!-- Yellow Theme -->
+    <color name="lightYellow">#fdd835</color>
+    <color name="Yellow">#fbc02d</color>
+    <color name="darkYellow">#c49000</color>
+
+    <!-- Cyan Theme -->
+    <color name="lightCyan">#5ddef4</color>
+    <color name="Cyan">#00acc1</color>
+    <color name="darkCyan">#007c91</color>
+
+    <!-- Orange Theme-->
+    <color name="lightOrange">#ff9d3f</color>
+    <color name="Orange">#ef6c00</color>
+    <color name="darkOrange">#b53d00</color>
 </resources>

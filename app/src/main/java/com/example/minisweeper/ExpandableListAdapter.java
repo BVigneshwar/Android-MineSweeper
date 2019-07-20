@@ -1,11 +1,14 @@
 package com.example.minisweeper;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -80,6 +83,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }else{
             convertView = infalInflater.inflate(R.layout.switch_header, null);
             lblListHeader = convertView.findViewById(R.id.switch_header_title);
+            if(groupPosition == 1)
+                getSoundView(convertView);
+            else if(groupPosition == 2)
+                getVibrationView(convertView);
         }
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
@@ -95,5 +102,39 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    void getSoundView(View convertView){
+        Switch toggle_switch = (Switch) convertView.findViewById(R.id.toggle_switch);
+        toggle_switch.setChecked(SharedPreferenceHandler.isSoundEnable);
+        toggle_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(SharedPreferenceHandler.isSoundEnable != isChecked){
+                    SharedPreferences sharedPreferences = context.getSharedPreferences(MineSweeperConstants.shared_preference_key, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(MineSweeperConstants.sound_key, isChecked);
+                    editor.apply();
+                    SharedPreferenceHandler.isSoundEnable = isChecked;
+                }
+            }
+        });
+    }
+
+    void getVibrationView(View convertView){
+        Switch toggle_switch = (Switch) convertView.findViewById(R.id.toggle_switch);
+        toggle_switch.setChecked(SharedPreferenceHandler.isVibrationEnable);
+        toggle_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(SharedPreferenceHandler.isVibrationEnable != isChecked){
+                    SharedPreferences sharedPreferences = context.getSharedPreferences(MineSweeperConstants.shared_preference_key, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(MineSweeperConstants.vibration_key, isChecked);
+                    editor.apply();
+                    SharedPreferenceHandler.isVibrationEnable = isChecked;
+                }
+            }
+        });
     }
 }

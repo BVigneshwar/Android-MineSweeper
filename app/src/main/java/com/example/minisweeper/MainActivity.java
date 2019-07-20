@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPreferences = getSharedPreferences(MineSweeperConstants.shared_preference_key, Context.MODE_PRIVATE);
         SharedPreferenceHandler.selected_theme = sharedPreferences.getInt(MineSweeperConstants.theme_key, 0);
         size_selector_index = sharedPreferences.getInt(MineSweeperConstants.grid_size_selector_key, 0);
+        SharedPreferenceHandler.isSoundEnable = sharedPreferences.getBoolean(MineSweeperConstants.sound_key, true);
+        SharedPreferenceHandler.isVibrationEnable = sharedPreferences.getBoolean(MineSweeperConstants.vibration_key, false);
 
         SharedPreferenceHandler.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_main);
@@ -181,6 +183,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         List<String> children_list = new ArrayList<>();
         children_list.add(getResources().getString(R.string.dark));
         children_list.add(getResources().getString(R.string.green));
+        children_list.add(getResources().getString(R.string.red));
+        children_list.add(getResources().getString(R.string.purple));
+        children_list.add(getResources().getString(R.string.blue));
+        children_list.add(getResources().getString(R.string.yellow));
+        children_list.add(getResources().getString(R.string.cyan));
+        children_list.add(getResources().getString(R.string.orange));
         children_map.put(getResources().getString(R.string.theme), children_list);
 
         header_list.add(getResources().getString(R.string.sound));
@@ -189,9 +197,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         header_list.add(getResources().getString(R.string.language));
         children_list = new ArrayList<>();
-        children_list.add("English");
-        children_list.add("French");
-        children_list.add("German");
+        children_list.add(getResources().getString(R.string.english));
+        children_list.add(getResources().getString(R.string.french));
+        children_list.add(getResources().getString(R.string.german));
         children_map.put(getResources().getString(R.string.language), children_list);
 
         header_list.add(getResources().getString(R.string.feedback));

@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Green Theme-->
-    <style name="Green" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/Green</item>
-        <item name="colorPrimaryDark">@color/darkGreen</item>
-        <item name="android:textColorPrimary">@color/White</item>
-        <item name="backgroundColor">@color/White</item>
-        <item name="textColor">@color/Green</item>
-        <item name="buttonColor">@color/Green</item>
-        <item name="buttonTextColor">@color/White</item>
-        <item name="lightColor">@color/lightGreen</item>
-        <item name="darkColor">@color/darkGreen</item>
-        <item name="optionsTextColor">@color/White</item>
-    </style>
     <!-- Dark Theme-->
     <style name="Dark" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/Gray</item>
@@ -26,4 +13,96 @@
         <item name="darkColor">@color/Gray</item>
         <item name="optionsTextColor">@color/White</item>
     </style>
+    <!-- Green Theme-->
+    <style name="Green" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Green</item>
+        <item name="colorPrimaryDark">@color/darkGreen</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/White</item>
+        <item name="textColor">@color/Green</item>
+        <item name="buttonColor">@color/Green</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/lightGreen</item>
+        <item name="darkColor">@color/darkGreen</item>
+        <item name="optionsTextColor">@color/White</item>
+    </style>
+    <!-- Red Theme-->
+    <style name="Red" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Red</item>
+        <item name="colorPrimaryDark">@color/darkRed</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/White</item>
+        <item name="textColor">@color/Red</item>
+        <item name="buttonColor">@color/Red</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/lightRed</item>
+        <item name="darkColor">@color/darkRed</item>
+        <item name="optionsTextColor">@color/White</item>
+    </style>
+    <!-- Purple Theme-->
+    <style name="Purple" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Purple</item>
+        <item name="colorPrimaryDark">@color/darkPurple</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/White</item>
+        <item name="textColor">@color/Purple</item>
+        <item name="buttonColor">@color/Purple</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/lightPurple</item>
+        <item name="darkColor">@color/darkPurple</item>
+        <item name="optionsTextColor">@color/White</item>
+    </style>
+    <!-- Blue Theme-->
+    <style name="Blue" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Blue</item>
+        <item name="colorPrimaryDark">@color/darkBlue</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/White</item>
+        <item name="textColor">@color/Blue</item>
+        <item name="buttonColor">@color/Blue</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/lightBlue</item>
+        <item name="darkColor">@color/darkBlue</item>
+        <item name="optionsTextColor">@color/White</item>
+    </style>
+    <!-- Yellow Theme-->
+    <style name="Yellow" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Yellow</item>
+        <item name="colorPrimaryDark">@color/darkYellow</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/White</item>
+        <item name="textColor">@color/Yellow</item>
+        <item name="buttonColor">@color/Yellow</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/lightYellow</item>
+        <item name="darkColor">@color/darkYellow</item>
+        <item name="optionsTextColor">@color/White</item>
+    </style>
+    <!-- Cyan Theme-->
+    <style name="Cyan" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Cyan</item>
+        <item name="colorPrimaryDark">@color/darkCyan</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/White</item>
+        <item name="textColor">@color/Cyan</item>
+        <item name="buttonColor">@color/Cyan</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/Cyan</item>
+        <item name="darkColor">@color/darkCyan</item>
+        <item name="optionsTextColor">@color/White</item>
+    </style>
+    <!-- Orange Theme-->
+    <style name="Orange" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Orange</item>
+        <item name="colorPrimaryDark">@color/darkOrange</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="backgroundColor">@color/White</item>
+        <item name="textColor">@color/Orange</item>
+        <item name="buttonColor">@color/Orange</item>
+        <item name="buttonTextColor">@color/White</item>
+        <item name="lightColor">@color/lightOrange</item>
+        <item name="darkColor">@color/darkOrange</item>
+        <item name="optionsTextColor">@color/White</item>
+    </style>
+
 </resources>

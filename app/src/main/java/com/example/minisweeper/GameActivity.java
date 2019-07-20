@@ -3,9 +3,12 @@ package com.example.minisweeper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -210,6 +213,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 restart.setVisibility(View.VISIBLE);
             }
+            playMusic();
         }
     }
 
@@ -292,5 +296,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             handler.postDelayed(this, 1000);
         }
     };
+    private void playMusic(){
+        if(SharedPreferenceHandler.isSoundEnable){
+            MediaPlayer player = MediaPlayer.create(this, R.raw.chord);
+            player.start();
+        }
+        if(SharedPreferenceHandler.isVibrationEnable){
+            Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
+    }
 
 }
