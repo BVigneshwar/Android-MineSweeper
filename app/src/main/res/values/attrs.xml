@@ -6,4 +6,5 @@
     <attr name="lightColor" format="reference"/>
     <attr name="darkColor" format="reference"/>
     <attr name="buttonColor" format="reference"/>
+    <attr name="optionsTextColor" format="reference"/>
 </resources>

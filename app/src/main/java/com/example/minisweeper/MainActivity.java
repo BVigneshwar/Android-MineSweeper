@@ -5,44 +5,43 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button start_button, prev_grid_size_button, next_grid_size_button;
     TextView grid_size_selector, best_time_display;
-    Spinner theme_selector;
 
     int size_selector_index;
     long best_time = Long.MAX_VALUE;
-    static int selected_theme;
     SharedPreferences sharedPreferences;
 
     ExpandableListAdapter expandableListAdapter;
     ExpandableListView expandableListView;
-    List<MenuModel> headerList = new ArrayList<>();
-    HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
+    List<String> header_list = new ArrayList<>();
+    Map<String, List<String>> children_map = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getSharedPreferences(MineSweeperConstants.shared_preference_key, Context.MODE_PRIVATE);
-        selected_theme = sharedPreferences.getInt(MineSweeperConstants.theme_key, 0);
+        SharedPreferenceHandler.selected_theme = sharedPreferences.getInt(MineSweeperConstants.theme_key, 0);
         size_selector_index = sharedPreferences.getInt(MineSweeperConstants.grid_size_selector_key, 0);
 
-        ThemeChanger.onActivityCreateSetTheme(this, selected_theme);
+        SharedPreferenceHandler.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_main);
 
         start_button = (Button) findViewById(R.id.start_button);
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         next_grid_size_button = (Button) findViewById(R.id.next_grid);
         best_time_display = (TextView) findViewById(R.id.best_time);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        theme_selector = (Spinner) navigationView.getMenu().findItem(R.id.nav_theme).getActionView();
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
         grid_size_selector.setText(MineSweeperConstants.row_count_array[size_selector_index]+" x "+MineSweeperConstants.column_count_array[size_selector_index]);
@@ -107,25 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setNextGridSize();
             }
         });
-        theme_selector.setSelection(selected_theme, false);
-        theme_selector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(MainActivity.selected_theme != position){
-                    SharedPreferences.Editor edit = sharedPreferences.edit();
-                    edit.putInt(MineSweeperConstants.theme_key, position);
-                    edit.apply();
-                    MainActivity.this.finish();
-                    MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.class));
-                    MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     @Override
@@ -148,6 +127,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onRestart() {
         super.onRestart();
         updateBestTime();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     void setPreviousGridSize(){
@@ -188,30 +177,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void prepareMenuData() {
-        MenuModel menuModel = new MenuModel("Theme", true, false); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
+        header_list.add(getResources().getString(R.string.theme));
+        List<String> children_list = new ArrayList<>();
+        children_list.add(getResources().getString(R.string.dark));
+        children_list.add(getResources().getString(R.string.green));
+        children_map.put(getResources().getString(R.string.theme), children_list);
 
-        List<MenuModel> childModelsList = new ArrayList<>();
-        MenuModel childModel = new MenuModel("Dark", false, false);
-        childModelsList.add(childModel);
-        childModel = new MenuModel("Green", false, false);
-        childModelsList.add(childModel);
-        childList.put(menuModel, childModelsList);
+        header_list.add(getResources().getString(R.string.sound));
+
+        header_list.add(getResources().getString(R.string.vibration));
+
+        header_list.add(getResources().getString(R.string.language));
+        children_list = new ArrayList<>();
+        children_list.add("English");
+        children_list.add("French");
+        children_list.add("German");
+        children_map.put(getResources().getString(R.string.language), children_list);
+
+        header_list.add(getResources().getString(R.string.feedback));
+
+        header_list.add(getResources().getString(R.string.help));
     }
 
     private void populateExpandableList() {
-        expandableListAdapter = new ExpandableListAdapter(this, headerList, childList);
+        expandableListAdapter = new ExpandableListAdapter(this, header_list, children_map);
         expandableListView.setAdapter(expandableListAdapter);
 
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-                if (headerList.get(groupPosition).isGroup) {
-                    if (!headerList.get(groupPosition).hasChildren) {
-
-                    }
-                }
 
                 return false;
             }
@@ -220,9 +215,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-
-                if (childList.get(headerList.get(groupPosition)) != null) {
-                    MenuModel model = childList.get(headerList.get(groupPosition)).get(childPosition);
+                if(groupPosition == 0){
+                    if(SharedPreferenceHandler.selected_theme != childPosition){
+                        sharedPreferences = getSharedPreferences(MineSweeperConstants.shared_preference_key, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt(MineSweeperConstants.theme_key, childPosition);
+                        editor.apply();
+                        MainActivity.this.finish();
+                        MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
 
                 }
 

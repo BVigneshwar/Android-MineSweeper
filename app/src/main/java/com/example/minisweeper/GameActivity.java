@@ -3,7 +3,6 @@ package com.example.minisweeper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -58,7 +57,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         best_time = intent.getLongExtra("BEST_TIME", Long.MAX_VALUE);
 
-        ThemeChanger.onActivityCreateSetTheme(this, selected_theme);
+        SharedPreferenceHandler.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_game);
 
         button = new ImageButton[rowCount+1][columnCount+1];

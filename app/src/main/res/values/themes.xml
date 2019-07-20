@@ -11,6 +11,7 @@
         <item name="buttonTextColor">@color/White</item>
         <item name="lightColor">@color/lightGreen</item>
         <item name="darkColor">@color/darkGreen</item>
+        <item name="optionsTextColor">@color/White</item>
     </style>
     <!-- Dark Theme-->
     <style name="Dark" parent="Theme.AppCompat.Light.NoActionBar">
@@ -23,5 +24,6 @@
         <item name="buttonTextColor">@color/White</item>
         <item name="lightColor">@color/darkGray</item>
         <item name="darkColor">@color/Gray</item>
+        <item name="optionsTextColor">@color/White</item>
     </style>
 </resources>
