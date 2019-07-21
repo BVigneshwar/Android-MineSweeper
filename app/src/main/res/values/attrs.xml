@@ -7,4 +7,6 @@
     <attr name="darkColor" format="reference"/>
     <attr name="buttonColor" format="reference"/>
     <attr name="optionsTextColor" format="reference"/>
+    <attr name="gridBackground" format="reference"/>
+    <attr name="gridOpenedBackground" format="reference"/>
 </resources>

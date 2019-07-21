@@ -16,6 +16,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,9 +39,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     int mineArray[][];
     int resultArray[][];
     boolean lockedArray[][];
-
-    int gridBackground[] = {R.drawable.grid_0, R.drawable.grid_1, R.drawable.grid_2, R.drawable.grid_3, R.drawable.grid_4,
-            R.drawable.grid_5, R.drawable.grid_6, R.drawable.grid_7, R.drawable.grid_8};
 
     boolean isGameOver = false;
     int selected_theme;
@@ -192,7 +190,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }else if(resultArray[i][j] == 0){
                 openSurroundingZero(i, j);
             }else{
-                selectedBtn.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[i][j]]));
+                selectedBtn.setBackground(getDrawable((R.drawable.grid_opened_button)));
+                selectedBtn.setImageResource(MineSweeperConstants.gridNumber[resultArray[i][j]]);
+                selectedBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 buttonClickCount++;
             }
             v.setEnabled(false);
@@ -257,7 +257,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             for(int j=colNumber-1; j<=colNumber+1; j++){
                 ImageButton bt = (ImageButton) findViewById((i-1)*rowCount + j);
                 if(i > 0 && i <= rowCount && j > 0 && j<=columnCount && bt.isEnabled()){
-                    bt.setBackground(ContextCompat.getDrawable(this, gridBackground[resultArray[i][j]]));
+                    bt.setBackground(getDrawable((R.drawable.grid_opened_button)));
+                    bt.setImageResource(MineSweeperConstants.gridNumber[resultArray[i][j]]);
+                    bt.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     buttonClickCount++;
                     bt.setEnabled(false);
                     if(resultArray[i][j] == 0 && (i != rowNumber || j != colNumber)){
@@ -276,7 +278,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     if(resultArray[i][j] == -1){
                         bt.setBackground(getDrawable(R.drawable.locked_grid_button));
                     }else{
-                        bt.setBackground(getDrawable(gridBackground[resultArray[i][j]]));
+                        bt.setBackground(getDrawable((R.drawable.grid_opened_button)));
+                        bt.setImageResource(MineSweeperConstants.gridNumber[resultArray[i][j]]);
+                        bt.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     }
                     bt.setEnabled(false);
                 }
