@@ -12,8 +12,9 @@
         <item name="lightColor">@color/darkGray</item>
         <item name="darkColor">@color/Gray</item>
         <item name="optionsTextColor">@color/White</item>
-        <item name="gridBackground">@color/darkGray</item>
-        <item name="gridOpenedBackground">@color/lightGray</item>
+        <item name="gridBackground">@color/lightGray</item>
+        <item name="gridOpenedBackground">@color/Gray</item>
+        <item name="flagColor">@color/darkGray</item>
     </style>
     <!-- Green Theme-->
     <style name="Green" parent="Theme.AppCompat.Light.NoActionBar">
@@ -29,6 +30,7 @@
         <item name="optionsTextColor">@color/White</item>
         <item name="gridBackground">@color/darkGreen</item>
         <item name="gridOpenedBackground">@color/lightGreen</item>
+        <item name="flagColor">@color/darkGreen</item>
     </style>
     <!-- Red Theme-->
     <style name="Red" parent="Theme.AppCompat.Light.NoActionBar">
@@ -44,6 +46,7 @@
         <item name="optionsTextColor">@color/White</item>
         <item name="gridBackground">@color/darkRed</item>
         <item name="gridOpenedBackground">@color/lightRed</item>
+        <item name="flagColor">@color/darkRed</item>
     </style>
     <!-- Purple Theme-->
     <style name="Purple" parent="Theme.AppCompat.Light.NoActionBar">
@@ -59,6 +62,7 @@
         <item name="optionsTextColor">@color/White</item>
         <item name="gridBackground">@color/darkPurple</item>
         <item name="gridOpenedBackground">@color/lightPurple</item>
+        <item name="flagColor">@color/darkPurple</item>
     </style>
     <!-- Blue Theme-->
     <style name="Blue" parent="Theme.AppCompat.Light.NoActionBar">
@@ -74,6 +78,7 @@
         <item name="optionsTextColor">@color/White</item>
         <item name="gridBackground">@color/darkBlue</item>
         <item name="gridOpenedBackground">@color/lightBlue</item>
+        <item name="flagColor">@color/darkBlue</item>
     </style>
     <!-- Yellow Theme-->
     <style name="Yellow" parent="Theme.AppCompat.Light.NoActionBar">
@@ -89,6 +94,7 @@
         <item name="optionsTextColor">@color/White</item>
         <item name="gridBackground">@color/darkYellow</item>
         <item name="gridOpenedBackground">@color/lightYellow</item>
+        <item name="flagColor">@color/darkYellow</item>
     </style>
     <!-- Cyan Theme-->
     <style name="Cyan" parent="Theme.AppCompat.Light.NoActionBar">
@@ -104,6 +110,7 @@
         <item name="optionsTextColor">@color/White</item>
         <item name="gridBackground">@color/darkCyan</item>
         <item name="gridOpenedBackground">@color/lightCyan</item>
+        <item name="flagColor">@color/darkCyan</item>
     </style>
     <!-- Orange Theme-->
     <style name="Orange" parent="Theme.AppCompat.Light.NoActionBar">
@@ -119,6 +126,7 @@
         <item name="optionsTextColor">@color/White</item>
         <item name="gridBackground">@color/darkOrange</item>
         <item name="gridOpenedBackground">@color/lightOrange</item>
+        <item name="flagColor">@color/darkOrange</item>
     </style>
 
 </resources>

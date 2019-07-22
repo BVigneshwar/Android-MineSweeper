@@ -9,4 +9,5 @@
     <attr name="optionsTextColor" format="reference"/>
     <attr name="gridBackground" format="reference"/>
     <attr name="gridOpenedBackground" format="reference"/>
+    <attr name="flagColor" format="reference"/>
 </resources>

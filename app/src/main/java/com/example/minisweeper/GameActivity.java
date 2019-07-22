@@ -191,7 +191,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 openSurroundingZero(i, j);
             }else{
                 selectedBtn.setBackground(getDrawable((R.drawable.grid_opened_button)));
-                selectedBtn.setImageResource(MineSweeperConstants.gridNumber[resultArray[i][j]]);
+                int imageResource = SharedPreferenceHandler.selected_theme == 0? MineSweeperConstants.gridNumberForDark[resultArray[i][j]] : MineSweeperConstants.gridNumber[resultArray[i][j]];
+                selectedBtn.setImageResource(imageResource);
                 selectedBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 buttonClickCount++;
             }
@@ -226,11 +227,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             int i = convertStringtoInteger(subString[0]);
             int j = convertStringtoInteger(subString[1]);
             if(lockedArray[i][j] == true){
+                selectedBtn.setImageResource(0);
                 selectedBtn.setBackground(getDrawable(R.drawable.grid_button));
                 lockedArray[i][j] = false;
                 remainingMineCount.setText(++rem_mine_count+"");
             }else{
-                selectedBtn.setBackground(getDrawable(R.drawable.locked_grid_button));
+                selectedBtn.setBackground(getDrawable((R.drawable.grid_opened_button)));
+                selectedBtn.setImageResource(R.drawable.flag);
+                selectedBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 lockedArray[i][j] = true;
                 remainingMineCount.setText(--rem_mine_count+"");
             }
@@ -258,7 +262,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 ImageButton bt = (ImageButton) findViewById((i-1)*rowCount + j);
                 if(i > 0 && i <= rowCount && j > 0 && j<=columnCount && bt.isEnabled()){
                     bt.setBackground(getDrawable((R.drawable.grid_opened_button)));
-                    bt.setImageResource(MineSweeperConstants.gridNumber[resultArray[i][j]]);
+                    if(resultArray[i][j] != 0){
+                        int imageResource = SharedPreferenceHandler.selected_theme == 0? MineSweeperConstants.gridNumberForDark[resultArray[i][j]] : MineSweeperConstants.gridNumber[resultArray[i][j]];
+                        bt.setImageResource(imageResource);
+                    }
                     bt.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     buttonClickCount++;
                     bt.setEnabled(false);
@@ -276,10 +283,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 ImageButton bt = (ImageButton) findViewById((i-1)*rowCount + j);
                 if(bt.isEnabled()){
                     if(resultArray[i][j] == -1){
-                        bt.setBackground(getDrawable(R.drawable.locked_grid_button));
+                        bt.setBackground(getDrawable((R.drawable.grid_opened_button)));
+                        bt.setImageResource(R.drawable.bomb);
+                        bt.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     }else{
                         bt.setBackground(getDrawable((R.drawable.grid_opened_button)));
-                        bt.setImageResource(MineSweeperConstants.gridNumber[resultArray[i][j]]);
+                        if(resultArray[i][j] != 0){
+                            int imageResource = SharedPreferenceHandler.selected_theme == 0? MineSweeperConstants.gridNumberForDark[resultArray[i][j]] : MineSweeperConstants.gridNumber[resultArray[i][j]];
+                            bt.setImageResource(imageResource);
+                        }
                         bt.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     }
                     bt.setEnabled(false);

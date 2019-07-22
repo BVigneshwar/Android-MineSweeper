@@ -11,6 +11,8 @@ public class MineSweeperConstants {
     public static final int column_count_array[] = {5, 7, 9, 11};
     public static final int grid_size_array_count = 4;
 
-    public static final int gridNumber[] = {R.drawable.grid_0, R.drawable.grid_black_1, R.drawable.grid_black_2, R.drawable.grid_black_3, R.drawable.grid_black_4,
+    public static final int gridNumber[] = {0, R.drawable.grid_black_1, R.drawable.grid_black_2, R.drawable.grid_black_3, R.drawable.grid_black_4,
             R.drawable.grid_black_5, R.drawable.grid_black_6, R.drawable.grid_black_7, R.drawable.grid_black_8};
+    public static final int gridNumberForDark[] = {0, R.drawable.grid_white_1, R.drawable.grid_white_2, R.drawable.grid_white_3, R.drawable.grid_white_4,
+            R.drawable.grid_white_5, R.drawable.grid_white_6, R.drawable.grid_white_7, R.drawable.grid_white_8};
 }
