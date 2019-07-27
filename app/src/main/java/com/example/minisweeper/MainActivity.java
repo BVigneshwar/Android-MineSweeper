@@ -16,6 +16,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button start_button, prev_grid_size_button, next_grid_size_button;
     TextView grid_size_selector, best_time_display;
+    DrawerLayout drawer;
 
     int size_selector_index;
     long best_time = Long.MAX_VALUE;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         best_time_display = (TextView) findViewById(R.id.best_time);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         grid_size_selector.setText(MineSweeperConstants.row_count_array[size_selector_index]+" x "+MineSweeperConstants.column_count_array[size_selector_index]);
         if(size_selector_index == MineSweeperConstants.grid_size_array_count - 1){
@@ -109,11 +112,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setNextGridSize();
             }
         });
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        drawer.closeDrawer(GravityCompat.END);
     }
 
     @Override
@@ -135,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         } else {
@@ -216,8 +221,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-
-
+                if(groupPosition == 4){
+                    drawer.closeDrawer(GravityCompat.END);
+                    Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
                 return false;
             }
         });
@@ -235,9 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.class));
                         MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
-
                 }
-
                 return false;
             }
         });
