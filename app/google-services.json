@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "238043743554",
+    "firebase_url": "https://feedback-d3728.firebaseio.com",
+    "project_id": "feedback-d3728",
+    "storage_bucket": "feedback-d3728.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238043743554:android:e0c5f4c25eab410a",
+        "android_client_info": {
+          "package_name": "com.example.minisweeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238043743554-n43kc7s9jmd6234trpjua64ph79ufnpq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE3HPpm35h1VHzFHE5914mSYo-KaGVRZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238043743554-n43kc7s9jmd6234trpjua64ph79ufnpq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
