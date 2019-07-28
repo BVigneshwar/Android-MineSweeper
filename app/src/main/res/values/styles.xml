@@ -8,4 +8,7 @@
         <item name="colorControlNormal">?lightColor</item>
         <item name="colorControlActivated">?colorPrimary</item>
     </style>
+    <style name="SwitchCompatTheme" >
+        <item name="colorControlActivated">?lightColor</item>
+    </style>
 </resources>

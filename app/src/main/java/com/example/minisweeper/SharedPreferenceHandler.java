@@ -6,6 +6,7 @@ public class SharedPreferenceHandler {
     static int selected_theme;
     static boolean isSoundEnable;
     static boolean isVibrationEnable;
+    static String best_time;
     static void onActivityCreateSetTheme(Activity activity){
         switch (selected_theme){
             case 0:

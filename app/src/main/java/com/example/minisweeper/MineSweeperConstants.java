@@ -6,6 +6,7 @@ public class MineSweeperConstants {
     public static final String grid_size_selector_key = "GRID_SIZE";
     public static final String sound_key = "SOUND";
     public static final String vibration_key = "VIBRATION";
+    public static final String best_time_key = "BEST_TIME";
 
     public static final int row_count_array[] = {7, 10, 12, 13};
     public static final int column_count_array[] = {5, 7, 9, 11};

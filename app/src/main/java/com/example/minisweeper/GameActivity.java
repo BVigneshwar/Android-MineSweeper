@@ -26,7 +26,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton[][] button;
     GridLayout gridLayout;
     Button restart;
-    TextView remainingMineCount, timer;
+    Button cancel;
+    TextView remainingMineCount, timer, challenge_time;
 
     private int rowCount;
     private int columnCount;
@@ -35,6 +36,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     int buttonClickCount = 0;
     int rem_mine_count;
     long start_time, millisecond_time, timeBuff;
+    String best_time_display;
 
     int mineArray[][];
     int resultArray[][];
@@ -54,6 +56,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         selected_theme = sharedPreferences.getInt(MineSweeperConstants.theme_key, 0);
         rowCount = MineSweeperConstants.row_count_array[selected_grid_size];
         columnCount = MineSweeperConstants.column_count_array[selected_grid_size];
+        best_time_display = sharedPreferences.getString(MineSweeperConstants.best_time_key, "0");
 
         Intent intent = getIntent();
         best_time = intent.getLongExtra("BEST_TIME", Long.MAX_VALUE);
@@ -120,13 +123,26 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GameActivity.this, GameActivity.class);
-                intent.putExtra("ROW_COUNT", rowCount);
-                intent.putExtra("COLUMN_COUNT", columnCount);
                 intent.putExtra("BEST_TIME", best_time);
                 startActivity(intent);
                 finish();
             }
         });
+
+        cancel = (Button) findViewById(R.id.back_to_main_menu);
+        cancel.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        challenge_time = (TextView) findViewById(R.id.challenge_time);
+        challenge_time.setText(best_time_display);
     }
     @Override
     protected void onStart() {
@@ -183,13 +199,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         int j = convertStringtoInteger(subString[1]);
         if(!isGameOver && lockedArray[i][j] == false){
             if(resultArray[i][j] == -1){
+                playMusic("over");
                 isGameOver = true;
                 openMineGrids();
                 handler.removeCallbacks(runnable);
                 restart.setVisibility(View.VISIBLE);
+                cancel.setVisibility(View.VISIBLE);
             }else if(resultArray[i][j] == 0){
+                playMusic("playing");
                 openSurroundingZero(i, j);
             }else{
+                playMusic("playing");
                 selectedBtn.setBackground(getDrawable((R.drawable.grid_opened_button)));
                 int imageResource = SharedPreferenceHandler.selected_theme == 0? MineSweeperConstants.gridNumberForDark[resultArray[i][j]] : MineSweeperConstants.gridNumber[resultArray[i][j]];
                 selectedBtn.setImageResource(imageResource);
@@ -213,8 +233,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
                 restart.setVisibility(View.VISIBLE);
+                cancel.setVisibility(View.VISIBLE);
+                playMusic("won");
             }
-            playMusic();
+
         }
     }
 
@@ -312,9 +334,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             handler.postDelayed(this, 1000);
         }
     };
-    private void playMusic(){
+    private void playMusic(String status){
         if(SharedPreferenceHandler.isSoundEnable){
-            MediaPlayer player = MediaPlayer.create(this, R.raw.chord);
+            MediaPlayer player;
+            if(status.equals("won")){
+                player = MediaPlayer.create(this, R.raw.clap);
+            }else if(status.equals("over")){
+                player = MediaPlayer.create(this, R.raw.game_over);
+            }else{
+                player = MediaPlayer.create(this, R.raw.chord);
+            }
             player.start();
         }
         if(SharedPreferenceHandler.isVibrationEnable){

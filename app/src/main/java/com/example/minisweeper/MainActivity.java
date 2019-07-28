@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button start_button, prev_grid_size_button, next_grid_size_button;
     TextView grid_size_selector, best_time_display;
     DrawerLayout drawer;
-
+    ImageButton settings;
     int size_selector_index;
     long best_time = Long.MAX_VALUE;
     SharedPreferences sharedPreferences;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        settings = (ImageButton) findViewById(R.id.settings);
 
         grid_size_selector.setText(MineSweeperConstants.row_count_array[size_selector_index]+" x "+MineSweeperConstants.column_count_array[size_selector_index]);
         if(size_selector_index == MineSweeperConstants.grid_size_array_count - 1){
@@ -113,19 +115,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        settings.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(GravityCompat.END);
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        drawer.closeDrawer(GravityCompat.END);
     }
 
     @Override
     public void onClick(View v) {
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putInt(MineSweeperConstants.grid_size_selector_key, size_selector_index);
+        edit.putString(MineSweeperConstants.best_time_key, best_time_display.getText().toString());
         edit.apply();
 
         Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -181,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int seconds = (int)(best_time%60);
             best_time_display.setText(minutes+" : "+seconds);
         }else{
-            best_time_display.setText("Good Luck !!!");
+            best_time_display.setText("0 : 00");
         }
     }
 
