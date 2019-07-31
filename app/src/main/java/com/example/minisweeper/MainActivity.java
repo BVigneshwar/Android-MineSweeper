@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    Button start_button, prev_grid_size_button, next_grid_size_button;
-    TextView grid_size_selector, best_time_display;
+    Button start_button, prev_grid_size_button, next_grid_size_button, prev_difficulty, next_difficulty;
+    TextView grid_size_selector, best_time_display, difficulty_selector;
+    LinearLayout grid_size_silder, difficulty_slider;
     DrawerLayout drawer;
     ImageButton settings;
     int size_selector_index;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         size_selector_index = sharedPreferences.getInt(MineSweeperConstants.grid_size_selector_key, 0);
         SharedPreferenceHandler.isSoundEnable = sharedPreferences.getBoolean(MineSweeperConstants.sound_key, true);
         SharedPreferenceHandler.isVibrationEnable = sharedPreferences.getBoolean(MineSweeperConstants.vibration_key, false);
+        SharedPreferenceHandler.difficulty = sharedPreferences.getInt(MineSweeperConstants.difficulty_key, 1);
 
         SharedPreferenceHandler.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_main);
@@ -55,13 +58,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         grid_size_selector = (TextView) findViewById(R.id.grid_size_selector);
         prev_grid_size_button = (Button) findViewById(R.id.prev_grid);
         next_grid_size_button = (Button) findViewById(R.id.next_grid);
+        prev_difficulty = (Button) findViewById(R.id.prev_diff);
+        next_difficulty = (Button) findViewById(R.id.next_diff);
         best_time_display = (TextView) findViewById(R.id.best_time);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         settings = (ImageButton) findViewById(R.id.settings);
+        grid_size_silder = (LinearLayout) findViewById(R.id.grid_slider);
+        difficulty_slider = (LinearLayout) findViewById(R.id.difficulty_slider);
+        difficulty_selector = (TextView) findViewById(R.id.difficulty_selector);
 
         grid_size_selector.setText(MineSweeperConstants.row_count_array[size_selector_index]+" x "+MineSweeperConstants.column_count_array[size_selector_index]);
+        difficulty_selector.setText(getResources().getString(MineSweeperConstants.difficulty_array[SharedPreferenceHandler.difficulty]));
+
         if(size_selector_index == MineSweeperConstants.grid_size_array_count - 1){
             next_grid_size_button.setVisibility(View.INVISIBLE);
         }else if(size_selector_index == 0){
@@ -74,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         start_button.setOnClickListener(this);
 
-        grid_size_selector.setOnTouchListener(new View.OnTouchListener() {
+        grid_size_silder.setOnTouchListener(new View.OnTouchListener() {
             float x1=0, y1=0, x2=0, y2=0;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -115,6 +125,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        difficulty_slider.setOnTouchListener(new View.OnTouchListener(){
+            float x1=0, y1=0, x2=0, y2=0;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = event.getX();
+                        y1 = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        x2 = event.getX();
+                        y2 = event.getY();
+                        if(x1 < x2){
+                            //left to right slide
+                            if(size_selector_index > 0){
+                                setPreviousDifficulty();
+                            }
+                        }
+                        if(x1 > x2){
+                            //right to left slide
+                            setNextDifficulty();
+                        }
+                }
+                return true;
+            }
+        });
+        prev_difficulty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setPreviousDifficulty();
+            }
+        });
+        next_difficulty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNextDifficulty();
+            }
+        });
         settings.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -134,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putInt(MineSweeperConstants.grid_size_selector_key, size_selector_index);
         edit.putString(MineSweeperConstants.best_time_key, best_time_display.getText().toString());
+        edit.putInt(MineSweeperConstants.difficulty_key, SharedPreferenceHandler.difficulty);
         edit.apply();
 
         Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -174,6 +223,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 next_grid_size_button.setVisibility(View.INVISIBLE);
             }else{
                 prev_grid_size_button.setVisibility(View.VISIBLE);
+            }
+            updateBestTime();
+        }
+    }
+    void setPreviousDifficulty(){
+        if(SharedPreferenceHandler.difficulty > 0){
+            difficulty_selector.setText(getResources().getString(MineSweeperConstants.difficulty_array[--SharedPreferenceHandler.difficulty]));
+            if(SharedPreferenceHandler.difficulty == 0){
+                prev_difficulty.setVisibility(View.INVISIBLE);
+            }else{
+                prev_difficulty.setVisibility(View.VISIBLE);
+            }
+            updateBestTime();
+        }
+    }
+    void setNextDifficulty(){
+        if(SharedPreferenceHandler.difficulty < 2){
+            difficulty_selector.setText(getResources().getString(MineSweeperConstants.difficulty_array[++SharedPreferenceHandler.difficulty]));
+            if(SharedPreferenceHandler.difficulty == 2){
+                next_difficulty.setVisibility(View.INVISIBLE);
+            }else{
+                next_difficulty.setVisibility(View.VISIBLE);
             }
             updateBestTime();
         }
@@ -247,6 +318,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         sharedPreferences = getSharedPreferences(MineSweeperConstants.shared_preference_key, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt(MineSweeperConstants.theme_key, childPosition);
+                        editor.putInt(MineSweeperConstants.difficulty_key, SharedPreferenceHandler.difficulty);
                         editor.apply();
                         MainActivity.this.finish();
                         MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.class));

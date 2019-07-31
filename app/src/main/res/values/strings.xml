@@ -14,6 +14,9 @@
     <string name="feedback_thanks">Thanks for the Feedback</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="close">Close</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
 
     <!-- Themes -->
     <string name="dark">Dark</string>

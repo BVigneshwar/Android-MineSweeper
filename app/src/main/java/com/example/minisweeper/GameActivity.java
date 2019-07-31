@@ -57,18 +57,23 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         rowCount = MineSweeperConstants.row_count_array[selected_grid_size];
         columnCount = MineSweeperConstants.column_count_array[selected_grid_size];
         best_time_display = sharedPreferences.getString(MineSweeperConstants.best_time_key, "0");
-
+        int difficulty = sharedPreferences.getInt(MineSweeperConstants.difficulty_key, 1);
         Intent intent = getIntent();
         best_time = intent.getLongExtra("BEST_TIME", Long.MAX_VALUE);
 
         SharedPreferenceHandler.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_game);
-
+        float minePercentage = 0.10F;
+        if(difficulty == 1){
+            minePercentage = 0.15F;
+        }else if(difficulty == 2){
+            minePercentage = .3F;
+        }
         button = new ImageButton[rowCount+1][columnCount+1];
         mineArray = new int[rowCount+2][columnCount+2];
         resultArray = new int[rowCount+2][columnCount+2];
         lockedArray = new boolean[rowCount+2][columnCount+2];
-        mineCount = (int) (0.15 * rowCount * columnCount);
+        mineCount = (int) (minePercentage * rowCount * columnCount);
         rem_mine_count = mineCount;
 
         for(int i=1; i<=rowCount; i++)
