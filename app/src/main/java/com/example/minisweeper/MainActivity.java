@@ -78,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             prev_grid_size_button.setVisibility(View.INVISIBLE);
         }
 
+        if(SharedPreferenceHandler.difficulty == 2){
+            next_difficulty.setVisibility(View.INVISIBLE);
+        }else if(SharedPreferenceHandler.difficulty == 0){
+            prev_difficulty.setVisibility(View.INVISIBLE);
+        }
+
         prepareMenuData();
         populateExpandableList();
         updateBestTime();
@@ -98,9 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         y2 = event.getY();
                         if(x1 < x2){
                             //left to right slide
-                            if(size_selector_index > 0){
-                                setPreviousGridSize();
-                            }
+                            setPreviousGridSize();
                         }
                         if(x1 > x2){
                             //right to left slide
@@ -139,9 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         y2 = event.getY();
                         if(x1 < x2){
                             //left to right slide
-                            if(size_selector_index > 0){
-                                setPreviousDifficulty();
-                            }
+                            setPreviousDifficulty();
                         }
                         if(x1 > x2){
                             //right to left slide
@@ -233,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(SharedPreferenceHandler.difficulty == 0){
                 prev_difficulty.setVisibility(View.INVISIBLE);
             }else{
-                prev_difficulty.setVisibility(View.VISIBLE);
+                next_difficulty.setVisibility(View.VISIBLE);
             }
             updateBestTime();
         }
@@ -244,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(SharedPreferenceHandler.difficulty == 2){
                 next_difficulty.setVisibility(View.INVISIBLE);
             }else{
-                next_difficulty.setVisibility(View.VISIBLE);
+                prev_difficulty.setVisibility(View.VISIBLE);
             }
             updateBestTime();
         }
@@ -253,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int row_num = MineSweeperConstants.row_count_array[size_selector_index];
         int col_num = MineSweeperConstants.column_count_array[size_selector_index];
         DatabaseHelper helper = new DatabaseHelper(this);
-        Cursor cursor = helper.getRecord(row_num, col_num);
+        Cursor cursor = helper.getRecord(row_num, col_num, SharedPreferenceHandler.difficulty);
         if(cursor.moveToFirst()){
             best_time = cursor.getLong(0);
             int minutes = (int)(best_time/60);
