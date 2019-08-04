@@ -106,7 +106,7 @@
             android:text="&lt;&lt;"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:gravity="right|center_vertical"
+            android:gravity="right"
             android:background="?backgroundColor"
             android:layout_weight="1"
             android:stateListAnimator="@null"/>
@@ -114,7 +114,7 @@
             android:id="@+id/difficulty_selector"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center_horizontal|top"
             android:textColor="?textColor"
             android:textStyle="bold"
             android:textSize="24sp"
@@ -127,7 +127,7 @@
             android:textColor="?textColor"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:gravity="left|center_vertical"
+            android:gravity="left"
             android:stateListAnimator="@null"
             android:background="?backgroundColor"
             android:layout_weight="1"/>

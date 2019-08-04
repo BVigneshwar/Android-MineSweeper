@@ -102,11 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case MotionEvent.ACTION_UP:
                         x2 = event.getX();
                         y2 = event.getY();
-                        if(x1 < x2){
+                        if(x1 < x2 && x2 - x1 > 10){
                             //left to right slide
                             setPreviousGridSize();
                         }
-                        if(x1 > x2){
+                        if(x1 > x2 && x1 - x2 > 10){
                             //right to left slide
                             setNextGridSize();
                         }
@@ -141,11 +141,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case MotionEvent.ACTION_UP:
                         x2 = event.getX();
                         y2 = event.getY();
-                        if(x1 < x2){
+                        if(x1 < x2 && x2 - x1 > 10){
                             //left to right slide
                             setPreviousDifficulty();
                         }
-                        if(x1 > x2){
+                        if(x1 > x2 && x1 - x2 > 10){
                             //right to left slide
                             setNextDifficulty();
                         }
@@ -213,8 +213,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(size_selector_index == 0){
                 prev_grid_size_button.setVisibility(View.INVISIBLE);
             }else{
-                next_grid_size_button.setVisibility(View.VISIBLE);
+                prev_grid_size_button.setVisibility(View.VISIBLE);
             }
+            next_grid_size_button.setVisibility(View.VISIBLE);
             updateBestTime();
         }
     }
@@ -224,8 +225,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(size_selector_index == MineSweeperConstants.grid_size_array_count - 1){
                 next_grid_size_button.setVisibility(View.INVISIBLE);
             }else{
-                prev_grid_size_button.setVisibility(View.VISIBLE);
+                next_grid_size_button.setVisibility(View.VISIBLE);
             }
+            prev_grid_size_button.setVisibility(View.VISIBLE);
             updateBestTime();
         }
     }
@@ -235,8 +237,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(SharedPreferenceHandler.difficulty == 0){
                 prev_difficulty.setVisibility(View.INVISIBLE);
             }else{
-                next_difficulty.setVisibility(View.VISIBLE);
+                prev_difficulty.setVisibility(View.VISIBLE);
             }
+            next_difficulty.setVisibility(View.VISIBLE);
             updateBestTime();
         }
     }
@@ -248,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }else{
                 prev_difficulty.setVisibility(View.VISIBLE);
             }
+            prev_difficulty.setVisibility(View.VISIBLE);
             updateBestTime();
         }
     }

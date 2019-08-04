@@ -8,10 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     static private String db_name = "MinesweeperRecords";
-    static private int db_version = 1;
+    static private int db_version = 2;
     static private String table_name = "best_record";
     static private String ROW_COUNT = "ROW_COUNT";
     static private String COL_COUNT = "COLUMN_COUNT";
+    static private String DIFFICULTY = "DIFFICULTY";
     static private String BEST_TIME = "TIME";
     DatabaseHelper(Context context){
         super(context, db_name, null, db_version);
@@ -21,7 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "CREATE TABLE " + table_name + " (\n" +
                 "    " + ROW_COUNT + " INTEGER NOT NULL,\n" +
                 "    " + COL_COUNT + " INTEGER NOT NULL,\n" +
-                "    " + BEST_TIME + " INTEGER NOT NULL\n" +
+                "    " + BEST_TIME + " INTEGER NOT NULL,\n" +
+                "    " + DIFFICULTY + " INTEGER NOT NULL\n" +
                 ");";
         db.execSQL(sql);
     }
@@ -41,25 +43,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    Cursor getRecord(int row_count, int col_count){
+    Cursor getRecord(int row_count, int col_count, int difficulty){
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT "+ BEST_TIME +" FROM "+ table_name +" WHERE "+ROW_COUNT+" = "+row_count+" AND "+ COL_COUNT +" = "+col_count;
+        String sql = "SELECT "+ BEST_TIME +" FROM "+ table_name +" WHERE "+ROW_COUNT+" = "+row_count+" AND "+ COL_COUNT +" = "+col_count +" AND "+ DIFFICULTY +" = "+difficulty;
         return db.rawQuery(sql, null);
     }
 
-    boolean updateBestTime(int row_count, int col_count, long best_time){
+    boolean updateBestTime(int row_count, int col_count, long best_time, int difficulty){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(BEST_TIME, best_time);
-        return db.update(table_name, values, ROW_COUNT+"= ? AND "+COL_COUNT+"= ?", new String[]{String.valueOf(row_count), String.valueOf(col_count)}) == 1;
+        return db.update(table_name, values, ROW_COUNT+"= ? AND "+COL_COUNT+"= ? AND "+DIFFICULTY+"= ?", new String[]{String.valueOf(row_count), String.valueOf(col_count), String.valueOf(difficulty)}) == 1;
     }
 
-    boolean insertBestTime(int row_count, int col_count, long best_time){
+    boolean insertBestTime(int row_count, int col_count, long best_time, int difficulty){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ROW_COUNT, row_count);
         values.put(COL_COUNT, col_count);
         values.put(BEST_TIME, best_time);
+        values.put(DIFFICULTY, difficulty);
         return db.insert(table_name, null, values) != -1;
     }
 }

@@ -229,11 +229,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 timeBuff /= 1000;
                 DatabaseHelper helper = new DatabaseHelper(this);
                 if(best_time == Long.MAX_VALUE){
-                    if(!helper.insertBestTime(rowCount, columnCount, timeBuff)){
+                    if(!helper.insertBestTime(rowCount, columnCount, timeBuff, SharedPreferenceHandler.difficulty)){
                         Toast.makeText(this, "Error Storing Best Time", Toast.LENGTH_LONG).show();
                     }
                 }else if(timeBuff < best_time){
-                    if(!helper.updateBestTime(rowCount, columnCount, timeBuff)){
+                    if(!helper.updateBestTime(rowCount, columnCount, timeBuff, SharedPreferenceHandler.difficulty)){
                         Toast.makeText(this, "Error Storing Best Time", Toast.LENGTH_LONG).show();
                     }
                 }
